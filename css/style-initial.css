@@ -1,0 +1,251 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+
+*/
+
+/* Reset: By default the browser adds some margin and padding to the elements */
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    /* Better practice */
+    box-sizing: inherit;
+}
+/* The root selector */
+html {
+    /* We use 10px to make our life easy with the calculations. */
+    /* This way we remove the ability of the users to increase the font-size of their browser to see properly, so it's a bad practice,
+    so we will use a percentage. */
+    /* font-size: 10px; */
+    /* 0.625 * 16px = 10px. Now the user can zoom in and out. */
+    font-size: 62.5%; 
+}
+
+body {
+    /* We use the power of inheritance and its more efficient that putting to the universal selector */
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    /* font-size: 16px; */
+    /* 1.7 bigger than the predefined one */
+    line-height: 1.7;
+    color: #777;
+    padding: 3rem;
+    /* It changes the box model so that the borders and the paddings are no longer added to the total width or the total height that we specify for a box.*/
+    box-sizing: border-box;
+}
+
+.header {
+    /* The height will 95% of the viewport height. */
+    height: 95vh;
+    /* We are currently in the css folder */
+    /* To add the green gradient we use the background-image property. */
+    /* We change the opacity of the colors, so that the image can be seen. */
+    background-image: linear-gradient(to right bottom,
+        rgba(126, 213, 111, 0.8),
+        rgba(40, 180, 131, 0.8)),
+        url("../img/hero.jpg");
+    /* Whatever the width of the viewport or the elemenet it will always try to fit the element inside the box. */
+    background-size: cover;
+    /* Whatever the viewport size the image stays at the top of the container. (there also center and bottom options)*/
+    background-position: top;
+    position: relative;
+    /* We specify a polygon in which the image or the element will still be visible */
+    /* We give the coordinates of the corners of the polygon */
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+}
+
+.header__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+}
+
+.header__logo {
+    /* The width will by automatically be configured by the browser. */
+    height: 3.5rem;
+}
+
+.header__text-box {
+    position: absolute;
+    /* 40% and 50% in relation to the parent element */
+    top: 40%;
+    left: 50%;
+    /* To be shifted half of the element's width to the left and half of the element's height to the top. 
+    These percentages are not in relation to the parent element, but of the element itself.*/
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.heading-primary {
+    color: #fff;
+    text-transform: uppercase;
+
+    /* To fix the slight "jump" (shaky) of the animation to the top at the end of it */
+    /* The backface-visibility property determines if the backpart of an element when we transform is visible or hidden from the user. */
+    backface-visibility: hidden;
+    margin-bottom: 6rem;
+}
+
+.heading-primary--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    /* To use the animation we created below we need the following properties*/
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    /* Slower by the end, ease-in is the opposite. */
+    animation-timing-function: ease-out;
+    /* animation-iteration-count: 3; */
+    /* animation-delay: 3s; */
+}
+
+.heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    /* animation-name: moveInRight;
+    animation-duration: 1s;
+    animation-timing-function: ease-out; */
+    animation: moveInRight 1s ease-out;
+}
+
+/* 
+    How to create CSS animations using @keyframes and the animation property.
+    We can also create CSS animations using the transition property.
+*/
+
+@keyframes moveInLeft {
+    /* The steps of the animation */
+    /* The browsers are optimized for the opacity and transform properties. */
+    /* The initial state of the animation */
+    0% {
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+
+    /* 60% {
+        transform: rotate(120deg);
+    } */
+
+    80% {
+        transform: translateX(1rem);
+    }
+    /* The final state of the animation */
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moveInRight {
+    /* The steps of the animation */
+    /* The browsers are optimized for the opacity and transform properties. */
+    /* The initial state of the animation */
+    0% {
+        opacity: 0;
+        transform: translateX(10rem);
+    }
+
+    80% {
+        transform: translateX(-1rem);
+    }
+    /* The final state of the animation */
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+@keyframes moveInBottom {
+    /* The steps of the animation */
+    /* The browsers are optimized for the opacity and transform properties. */
+    /* The initial state of the animation */
+    0% {
+        opacity: 0;
+        transform: translateY(3rem);
+    }
+    /* The final state of the animation */
+    100% {
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+/* link pseudoclass - pseudoclasses are special states of the selectors */
+.btn:link,
+.btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    /* 15px top and bottom, 40px right and left */
+    padding: 1.5rem 4rem;
+    /* At first is displayed as inline element */
+    display: inline-block;
+    /* To give the round edges to the button. */
+    border-radius: 10rem;
+    /* What properties to be animated, below the shorthand.*/
+    /* The transition property has to be at the initial state!!! */
+    transition: all .2s;
+    position: relative;
+    font-size: 1.6rem;
+}
+
+.btn:hover {
+    /* To move up negative and also to move left. */
+    transform: translateY(-.3rem);
+    /* 1st value: offset in the Y direction, 2nd value: offset in the X direction, 3rd value: blur that we want to see, 4th value: color and opacity of the shadow  */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
+}
+
+.btn:active {
+    /* Related to the initial link state. */
+    transform: translateY(-.1rem);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.btn--white {
+    background-color: #fff;
+    color: #777;
+}
+
+/* Acts like a virtual element right after the element we are selecting and then we can style this element. */
+/* The after pseudo element is basically treated as a child of the main element. */
+.btn::after {
+    /* The trick is to add an element that looks exactly like the button we already have, but we put it behind the button and when
+    we hover out of the button this hidden pseudo-element goes back behind the button. */
+    /* We always have to specify the content and display properties!!! */
+    content: "";
+    display: inline-block;
+    /* 100% of the width and height of the button. */
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    /* We want to put it behind the element. The reference is the .btn:link, .btn:visited */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn--white::after {
+    background-color: #fff;
+}
+
+.btn:hover::after {
+    /* scale: it increases the element */
+    transform: scaleX(1.4) scaleY(1.6);
+    /* The trick to fade something out */
+    opacity: 0;
+}
+
+.btn--animated {
+    /* .75s is the delay. */
+    animation: moveInBottom .5s ease-out .75s;
+    /* The 0% style of the animation will be applied before the animation starts. */
+    animation-fill-mode: backwards;
+}

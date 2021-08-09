@@ -1,0 +1,144 @@
+.popup {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba($color-black, .8);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+    line-height: 1;
+    
+    // Graceful degradation
+    // If the feature is supported then the code is applied, else it's not.
+    @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+        -webkit-backdrop-filter: blur(10px);
+        // It applies to the element behind.
+        backdrop-filter: blur(10px);
+        background-color: rgba($color-black, .3);
+    }
+
+    
+    &__content {
+        @include absCenter;
+        width: 75%;
+        background-color: $color-white;
+        box-shadow: 0 2rem 4rem rgba($color-black, .2);
+        border-radius: 3px;
+        display: table;
+        overflow: hidden;
+        opacity: 0;
+        // We repeat the transform of the mixin, because we can't have two separate transforms at the same element.
+        transform: translate(-50%, -50%), scale(0);
+        transition: all .5s .2s;
+
+        @include respond(phone) {
+            width: 100%;
+            box-shadow: 0 1rem 2rem rgba($color-black, .2);
+            display: block;
+        }
+    }
+    
+    &__left {
+        width: 33.33333333%;
+        display: table-cell;
+
+        @include respond(phone) {
+            width: 100%;
+            display: inline-block;
+        }
+    }
+    
+    &__right {
+        width: 66.6666667%;
+        display: table-cell;
+        // This property we can only use for tables.
+        vertical-align: middle;
+        padding: 3rem 5rem;
+
+        @include respond(phone) {
+            width: 100%;
+            display: block;
+            padding: 1.5rem 3rem;
+        }
+    }
+    
+    &__img {
+        display: block;
+        width: 100%;
+        height: auto;
+
+        @include respond(phone) {
+            width: 50%;
+            height: 20vh;
+            float: left;
+        }
+    }
+
+    // Open states
+    // Applies to the element when we click a button or a link.
+    &:target {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &:target &__content {
+        opacity: 1;
+        transform: translate(-50%, -50%), scale(1);
+    }
+
+    &__close {
+        &:link,
+        &:visited {
+            color: $color-grey-dark-3;
+            position: absolute;
+            top: 2.5rem;
+            right: 2.5rem;
+            font-size: 3rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .2s;
+
+            @include respond(phone) {
+                color: $color-white;
+                font-size: 3.5rem;
+            }
+        }
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    &__text {
+        font-size: 1.4rem;
+
+        -moz-column-count: 2;
+        -moz-column-gap: 4rem;
+        -moz-column-rule: 1px solid $color-grey-light-2;
+
+        column-count: 2;
+        column-gap: 4rem; // 1em = 14px;
+        // To create a vertical line between the two columns.
+        column-rule: 1px solid $color-grey-light-2;
+
+        // Hyphenation
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+
+        @include respond(phone) {
+            font-size: 1.6rem;
+            -moz-column-count: 1;
+            -moz-column-gap: none;
+            -moz-column-rule: none;
+
+            column-count: 1;
+            column-gap: none;
+            column-rule: none;
+        }
+    }
+}
